@@ -122,7 +122,7 @@ function transitionScrollTo(target, parent, settings, callback){
         time: settings.time + (lastSettings ? now - lastSettings.startTime : 0),
         ease: settings.ease,
         align: settings.align,
-        scrollLeft: settings.scrollLeft,
+        scrollLeft: settings.scrollLeft === undefined ? true : settings.scrollLeft,
         end: end
     };
 
