@@ -9,11 +9,11 @@ function raf(task){
     setTimeout(task, 16);
 }
 
-function setElementScroll(element, x, y){
+function setElementScroll(element, x, y, scrollLeft){
     if(element.self === element){
-        element.scrollTo(x, y);
+        element.scrollTo(scrollLeft ? x : 0, y);
     }else{
-        element.scrollLeft = x;
+        element.scrollLeft = scrollLeft ? x : 0;
         element.scrollTop = y;
     }
 }
@@ -81,7 +81,7 @@ function animate(parent){
         if(
             time > scrollSettings.time + 20
         ){
-            setElementScroll(parent, location.x, location.y);
+            setElementScroll(parent, location.x, location.y, scrollSettings.scrollLeft);
             parent._scrollSettings = null;
             return scrollSettings.end(COMPLETE);
         }
@@ -90,7 +90,8 @@ function animate(parent){
 
         setElementScroll(parent,
             location.x - location.differenceX * easeValue,
-            location.y - location.differenceY * easeValue
+            location.y - location.differenceY * easeValue,
+            scrollSettings.scrollLeft
         );
 
         animate(parent);
@@ -121,6 +122,7 @@ function transitionScrollTo(target, parent, settings, callback){
         time: settings.time + (lastSettings ? now - lastSettings.startTime : 0),
         ease: settings.ease,
         align: settings.align,
+        scrollLeft: settings.scrollLeft,
         end: end
     };
 
